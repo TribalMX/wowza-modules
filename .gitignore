@@ -3,6 +3,8 @@
 
 # except these guys
 !.gitignore
+
+conf/*
 !conf/live
 !conf/Server.xml
 !conf/VHosts.xml
