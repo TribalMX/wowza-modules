@@ -2,7 +2,7 @@
 !.gitignore
 
 conf/*
-!conf/live
+!conf/live/*
 !conf/Server.xml
 !conf/VHosts.xml
 
