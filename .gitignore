@@ -1,0 +1,8 @@
+# ignore everything
+*
+
+# except these guys
+!.gitignore
+!conf/live
+!conf/Server.xml
+!conf/VHosts.xml
