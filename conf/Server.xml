@@ -61,9 +61,9 @@
 			<DefaultStreamPrefix>mp4</DefaultStreamPrefix>
 		</Streams>
 		<ServerListeners>
-		    <ServerListener>
-				<BaseClass>tv.videogami.hellowowza.HelloServerListener</BaseClass>
-			</ServerListener>
+<!-- 		    <ServerListener> -->
+<!-- 				<BaseClass>tv.videogami.hellowowza.HelloServerListener</BaseClass> -->
+<!-- 			</ServerListener> -->
 			<ServerListener>
 				<BaseClass>com.wowza.wms.mediacache.impl.MediaCacheServerListener</BaseClass>
 			</ServerListener>

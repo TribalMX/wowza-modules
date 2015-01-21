@@ -4,6 +4,7 @@
 conf/*
 !conf/live/*
 !conf/Server.xml
+!conf/VHost.xml
 !conf/VHosts.xml
 
 !*/

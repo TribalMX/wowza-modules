@@ -214,12 +214,12 @@
 				<Name>ModuleCoreSecurity</Name>
 				<Description>Core Security Module for Applications</Description>
 				<Class>com.wowza.wms.security.ModuleCoreSecurity</Class>
-			</Module>
+			</Module>	
 			<Module>
-				<Name>HelloWowza</Name>
-				<Description>Wowza Module Tutorial</Description>
-				<Class>tv.videogami.hellowowza.HelloWowza</Class>
-			</Module>		
+				<Name>StreamEvents</Name>
+				<Description>Stream Events for Videogami</Description>
+				<Class>tv.videogami.wowza.StreamEvents</Class>
+			</Module>
 		</Modules>
 		<!-- Properties defined here will be added to the IApplication.getProperties() and IApplicationInstance.getProperties() collections -->
 		<Properties>
