@@ -10,4 +10,6 @@ conf/*
 lib/*
 !lib/StreamEvents.jar
 
+!StreamEvents/**
+
 !*/
