@@ -7,4 +7,7 @@ conf/*
 !conf/VHost.xml
 !conf/VHosts.xml
 
+lib/*
+!lib/StreamEvents.jar
+
 !*/
