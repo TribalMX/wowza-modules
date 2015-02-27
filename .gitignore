@@ -2,6 +2,7 @@
 !.gitignore
 
 conf/*
+!conf/live/Application.xml
 !conf/Application.xml
 !conf/Server.xml
 !conf/VHost.xml
