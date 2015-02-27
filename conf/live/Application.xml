@@ -121,6 +121,30 @@
 			<IncomingDatagramPortRanges>*</IncomingDatagramPortRanges>
 			<!-- Properties defined here will override any properties defined in conf/RTP.xml for any depacketizers loaded by this application -->
 			<Properties>
+			    <Property>
+					<Name>rtpDePacketizerWrapper</Name>
+					<Value>com.wowza.wms.rtp.depacketizer.RTPDePacketizerWrapperPacketSorter</Value>
+				</Property>
+				<Property>
+					<Name>rtpDePacketizerPacketSorterBufferTime</Name>
+					<Value>500</Value>
+					<Type>Integer</Type>
+				</Property>
+				<Property>
+					<Name>rtpDePacketizerPacketSorterFlushTime</Name>
+					<Value>10</Value>
+					<Type>Integer</Type>
+				</Property>
+				<Property>
+					<Name>rtpDePacketizerPacketSorterLogPacketLoss</Name>
+					<Value>true</Value>
+					<Type>Boolean</Type>
+				</Property>
+				<Property>
+					<Name>logIncompleteMPEGTSVideoFrames</Name>
+					<Value>true</Value>
+					<Type>Boolean</Type>
+				</Property>				
 			</Properties>
 		</RTP>
 		<MediaCaster>
