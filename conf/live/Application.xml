@@ -68,7 +68,7 @@
 			<!-- edges should have this empty -->
 			<Store>dvrfilestorage</Store>
 			<!--  Window Duration is length of live DVR window in seconds.  0 means the window is never trimmed. -->
-			<WindowDuration>0</WindowDuration>
+			<WindowDuration>600</WindowDuration>
 			<!-- Storage Directory is top level location where dvr is stored.  e.g. c:/temp/dvr -->
 			<StorageDir>${com.wowza.wms.context.VHostConfigHome}/dvr</StorageDir>
 			<!-- valid ArchiveStrategy values are append, version, delete -->
