@@ -84,11 +84,16 @@
 
       <!-- Properties for DVR -->
       <Properties>
-	<Property>
-	  <Name>dvrPacketSortTime</Name>
-	  <Value>2000</Value>
-	  <Type>Integer</Type>
-	</Property>
+		<Property>
+		  <Name>dvrPacketSortTime</Name>
+		  <Value>2000</Value>
+		  <Type>Integer</Type>
+		</Property>
+		<Property>
+          <Name>dvrAllowableAVPacketDelta</Name>
+          <Value>2000</Value>
+          <Type>Integer</Type>
+     	</Property>		
       </Properties>
     </DVR>
 
