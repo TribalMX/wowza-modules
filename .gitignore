@@ -1,0 +1,15 @@
+*
+!.gitignore
+
+conf/*
+!conf/Application.xml
+!conf/Server.xml
+!conf/VHost.xml
+!conf/VHosts.xml
+
+lib/*
+!lib/StreamEvents.jar
+
+!StreamEvents/**
+
+!*/
