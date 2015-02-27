@@ -214,10 +214,20 @@
 				<Name>ModuleCoreSecurity</Name>
 				<Description>Core Security Module for Applications</Description>
 				<Class>com.wowza.wms.security.ModuleCoreSecurity</Class>
+			</Module>	
+			<Module>
+				<Name>StreamEvents</Name>
+				<Description>Stream Events for Videogami</Description>
+				<Class>tv.videogami.wowza.StreamEvents</Class>
 			</Module>
 		</Modules>
 		<!-- Properties defined here will be added to the IApplication.getProperties() and IApplicationInstance.getProperties() collections -->
 		<Properties>
+			<!-- <Property> -->
+			<!-- 	<Name>securityPublishRequirePassword</Name> -->
+			<!-- 	<Value>true</Value> -->
+			<!-- 	<Type>Boolean</Type> -->
+			<!-- </Property> -->
 		</Properties>
 	</Application>
 </Root>

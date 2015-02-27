@@ -75,6 +75,9 @@
 			<DefaultStreamPrefix>flv</DefaultStreamPrefix>
 		</Streams>
 		<ServerListeners>
+<!-- 		    <ServerListener> -->
+<!-- 				<BaseClass>tv.videogami.hellowowza.HelloServerListener</BaseClass> -->
+<!-- 			</ServerListener> -->
 			<ServerListener>
 				<BaseClass>com.wowza.wms.mediacache.impl.MediaCacheServerListener</BaseClass>
 			</ServerListener>
@@ -111,6 +114,7 @@
 			<Properties>
 			</Properties>
 		</Manager>
+
 		<!-- Properties defined here will be added to the IServer.getProperties() collection -->
 		<Properties>
 		</Properties>
