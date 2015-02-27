@@ -139,18 +139,18 @@
 				<VideoTimeout>0</VideoTimeout>
 				<AudioStartTimeout>0</AudioStartTimeout>
 				<AudioTimeout>0</AudioTimeout>
-				<VideoTCToleranceEnable>false</VideoTCToleranceEnable>
+				<VideoTCToleranceEnable>true</VideoTCToleranceEnable>
 				<VideoTCPosTolerance>3000</VideoTCPosTolerance>
 				<VideoTCNegTolerance>-500</VideoTCNegTolerance>
-				<AudioTCToleranceEnable>false</AudioTCToleranceEnable>
+				<AudioTCToleranceEnable>true</AudioTCToleranceEnable>
 				<AudioTCPosTolerance>3000</AudioTCPosTolerance>
 				<AudioTCNegTolerance>-500</AudioTCNegTolerance>
-				<DataTCToleranceEnable>false</DataTCToleranceEnable>
+				<DataTCToleranceEnable>true</DataTCToleranceEnable>
 				<DataTCPosTolerance>3000</DataTCPosTolerance>
 				<DataTCNegTolerance>-500</DataTCNegTolerance>
-				<AVSyncToleranceEnable>false</AVSyncToleranceEnable>
+				<AVSyncToleranceEnable>true</AVSyncToleranceEnable>
 				<AVSyncTolerance>1500</AVSyncTolerance>
-				<DebugLog>false</DebugLog>
+				<DebugLog>true</DebugLog>
 			</StreamValidator>
 			<!-- Properties defined here will override any properties defined in conf/MediaCasters.xml for any MediaCasters loaded by this applications -->
 			<Properties>
