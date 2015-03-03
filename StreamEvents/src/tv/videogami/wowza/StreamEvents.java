@@ -5,9 +5,11 @@ import tv.videogami.utils.Request;
 import com.wowza.wms.application.*;
 import com.wowza.wms.amf.*;
 import com.wowza.wms.client.*;
+import com.wowza.wms.dvr.*;
 import com.wowza.wms.module.*;
 import com.wowza.wms.request.*;
 import com.wowza.wms.stream.*;
+import com.wowza.wms.stream.livedvr.*;
 import com.wowza.wms.rtp.model.*;
 import com.wowza.wms.httpstreamer.model.*;
 import com.wowza.wms.httpstreamer.cupertinostreaming.httpstreamer.*;
@@ -127,7 +129,29 @@ public class StreamEvents extends ModuleBase {
 		}
 
 		public void onUnPublish(IMediaStream stream, String streamName, boolean isRecord, boolean isAppend) {
-			log("onUnPublish stream:" + streamName);
+			log("unpublishing stream:" + streamName);
+			
+			ILiveStreamDvrRecorder dvrRecorder = stream.getDvrRecorder(IDvrConstants.DVR_DEFAULT_RECORDER_ID);
+            if (dvrRecorder == null) {
+            	log("ERROR. dvr recorder not found stream:" + streamName);
+                return;
+            }            
+            if (dvrRecorder.isRecording()) {
+                log("INFO. dvr stop recording stream:" + streamName);
+            	dvrRecorder.stopRecording(); // maybe this is all you need!
+            }
+            
+//            // kinda drastic. might cause delay starting up recorder when new stream comes in
+//            // log("INFO. shutting down dvr recorder stream:" + streamName);
+//            // dvrRecorder.shutdown(); 
+            
+//            log("INFO. removing stream store stream:" + streamName);
+//            IDvrStreamManager dvrManager = dvrRecorder.getDvrManager();
+//            if (dvrManager == null) {
+//                log("ERROR. dvr manager not found stream:" + streamName);
+//                return;
+//            }
+//            dvrManager.removeStreamStore(streamName);
 		}
 
 		public void onPause(IMediaStream stream, boolean isPause, double location) {
