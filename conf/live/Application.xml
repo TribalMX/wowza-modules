@@ -86,14 +86,14 @@
 					<Type>Integer</Type>
 				</Property>				    
 				<Property>
-				     <Name>streamTimeout</Name>
-				     <Value>15000</Value>
-				     <Type>Integer</Type>
+				    <!-- try 5000ms after notifying vdgami of stream events directly from wowza engine -->				    
+					<Name>streamTimeout</Name>
+					<Value>15000</Value>
+					<Type>Integer</Type>
 				</Property>
 				<!-- shorter chunks less playback latency -->
 				<!-- doesn't seem to affect default of ~13s -->
 				<!-- huh it does on production server -->
-				<!-- 10s is a good length -->
 				<Property>
 				     <Name>dvrChunkDurationMinimum</Name>
 				     <Value>5000</Value>

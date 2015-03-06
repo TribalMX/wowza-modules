@@ -148,7 +148,7 @@ public class StreamEvents extends ModuleBase {
 			log("info unpublishing stream:" + streamName);
 			int resCode = Request.notifyStreamEvent(VDGAMI_URL + "/v3/stream/"
 					+ streamName + "/status/false", streamName);
-			log("info notifying stream start stream:" + streamName + " code:" + resCode);
+			log("info notifying stream end stream:" + streamName + " code:" + resCode);
 			
 			// // Seems you can just config this in conf/[live/]Application.xml
 			// ILiveStreamDvrRecorder dvrRecorder =
