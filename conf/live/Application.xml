@@ -96,12 +96,12 @@
 				<!-- 10s is a good length -->
 				<Property>
 				     <Name>dvrChunkDurationMinimum</Name>
-				     <Value>10000</Value>
+				     <Value>5000</Value>
 				     <Type>Integer</Type>
 				</Property>
 				<Property>
 				     <Name>dvrMinimumAvailableChunks</Name>
-				     <Value>3</Value>
+				     <Value>5</Value>
 				     <Type>Integer</Type>
 				</Property>
 			</Properties>
