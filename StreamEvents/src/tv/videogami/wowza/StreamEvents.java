@@ -16,30 +16,33 @@ import com.wowza.wms.httpstreamer.cupertinostreaming.httpstreamer.*;
 import com.wowza.wms.httpstreamer.smoothstreaming.httpstreamer.*;
 
 public class StreamEvents extends ModuleBase {
-	
-//	public static final String WASA_URL = "http://ec2-54-221-196-249.compute-1.amazonaws.com";
-	public static final String WASA_URL = "http://localhost:8080";
-	
-	private void log(String msg){
+
+	public static final String VDGAMI_URL = "http://vdgami-1085381642.us-east-1.elb.amazonaws.com";
+
+	private void log(String msg) {
 		getLogger().info("WASA " + msg);
 	}
-	
-	public void doSomething(IClient client, RequestFunction function, AMFDataList params) {
+
+	public void doSomething(IClient client, RequestFunction function,
+			AMFDataList params) {
 		log("doSomething");
 		sendResult(client, params, "Hello Wowza");
 	}
 
 	public void onAppStart(IApplicationInstance appInstance) {
-		String fullname = appInstance.getApplication().getName() + "/" + appInstance.getName();
+		String fullname = appInstance.getApplication().getName() + "/"
+				+ appInstance.getName();
 		log("onAppStart: " + fullname);
 	}
 
 	public void onAppStop(IApplicationInstance appInstance) {
-		String fullname = appInstance.getApplication().getName() + "/" + appInstance.getName();
+		String fullname = appInstance.getApplication().getName() + "/"
+				+ appInstance.getName();
 		log("onAppStop: " + fullname);
 	}
 
-	public void onConnect(IClient client, RequestFunction function, AMFDataList params) {
+	public void onConnect(IClient client, RequestFunction function,
+			AMFDataList params) {
 		log("onConnect: " + client.getClientId());
 	}
 
@@ -56,7 +59,7 @@ public class StreamEvents extends ModuleBase {
 	}
 
 	public void onStreamCreate(IMediaStream stream) {
-		log("onStreamCreate:" + stream.getSrc() + " by:"+ stream.getClientId());
+		log("onStreamCreate:" + stream.getSrc() + " by:" + stream.getClientId());
 		IMediaStreamActionNotify actionNotify = new StreamListener();
 		stream.addClientListener(actionNotify);
 	}
@@ -73,20 +76,27 @@ public class StreamEvents extends ModuleBase {
 		log("onHTTPSessionDestroy: " + httpSession.getSessionId());
 	}
 
-	public void onHTTPCupertinoStreamingSessionCreate(HTTPStreamerSessionCupertino httpSession) {
-		log("onHTTPCupertinoStreamingSessionCreate: " + httpSession.getSessionId());
+	public void onHTTPCupertinoStreamingSessionCreate(
+			HTTPStreamerSessionCupertino httpSession) {
+		log("onHTTPCupertinoStreamingSessionCreate: "
+				+ httpSession.getSessionId());
 	}
 
-	public void onHTTPCupertinoStreamingSessionDestroy(HTTPStreamerSessionCupertino httpSession) {
-		log("onHTTPCupertinoStreamingSessionDestroy: " + httpSession.getSessionId());
+	public void onHTTPCupertinoStreamingSessionDestroy(
+			HTTPStreamerSessionCupertino httpSession) {
+		log("onHTTPCupertinoStreamingSessionDestroy: "
+				+ httpSession.getSessionId());
 	}
 
-	public void onHTTPSmoothStreamingSessionCreate(HTTPStreamerSessionSmoothStreamer httpSession) {
+	public void onHTTPSmoothStreamingSessionCreate(
+			HTTPStreamerSessionSmoothStreamer httpSession) {
 		log("onHTTPSmoothStreamingSessionCreate: " + httpSession.getSessionId());
 	}
 
-	public void onHTTPSmoothStreamingSessionDestroy(HTTPStreamerSessionSmoothStreamer httpSession) {
-		log("onHTTPSmoothStreamingSessionDestroy: " + httpSession.getSessionId());
+	public void onHTTPSmoothStreamingSessionDestroy(
+			HTTPStreamerSessionSmoothStreamer httpSession) {
+		log("onHTTPSmoothStreamingSessionDestroy: "
+				+ httpSession.getSessionId());
 	}
 
 	public void onRTPSessionCreate(RTPSession rtpSession) {
@@ -97,12 +107,14 @@ public class StreamEvents extends ModuleBase {
 		log("onRTPSessionDestroy: " + rtpSession.getSessionId());
 	}
 
-	public void onCall(String handlerName, IClient client, RequestFunction function, AMFDataList params) {
+	public void onCall(String handlerName, IClient client,
+			RequestFunction function, AMFDataList params) {
 		log("onCall: " + handlerName);
 	}
 
 	class StreamListener implements IMediaStreamActionNotify2 {
-		public void onPlay(IMediaStream stream, String streamName, double playStart, double playLen, int playReset) {
+		public void onPlay(IMediaStream stream, String streamName,
+				double playStart, double playLen, int playReset) {
 			log("onPlay");
 		}
 
@@ -110,7 +122,8 @@ public class StreamEvents extends ModuleBase {
 			log("onMetaData");
 		}
 
-		public void onPauseRaw(IMediaStream stream, boolean isPause, double location) {
+		public void onPauseRaw(IMediaStream stream, boolean isPause,
+				double location) {
 			log("onPauseRaw");
 		}
 
@@ -122,41 +135,50 @@ public class StreamEvents extends ModuleBase {
 			log("onStop By: " + stream.getClientId());
 		}
 
-		public void onPublish(IMediaStream stream, String streamName, boolean isRecord, boolean isAppend) {
-			log("onPublish stream:" + streamName);
-			int resCode = Request.notifyStreamStart(WASA_URL, streamName);
-			log("notifyStreamStart stream:" + streamName + " code:" + resCode);
+		public void onPublish(IMediaStream stream, String streamName,
+				boolean isRecord, boolean isAppend) {
+			log("info publishing stream:" + streamName);
+			int resCode = Request.notifyStreamEvent(VDGAMI_URL + "/v3/stream/"
+					+ streamName + "/status/true", streamName);
+			log("info notifying stream start stream:" + streamName + " code:" + resCode);
 		}
 
-		public void onUnPublish(IMediaStream stream, String streamName, boolean isRecord, boolean isAppend) {
-			log("unpublishing stream:" + streamName);
+		public void onUnPublish(IMediaStream stream, String streamName,
+				boolean isRecord, boolean isAppend) {
+			log("info unpublishing stream:" + streamName);
+			int resCode = Request.notifyStreamEvent(VDGAMI_URL + "/v3/stream/"
+					+ streamName + "/status/false", streamName);
+			log("info notifying stream start stream:" + streamName + " code:" + resCode);
 			
-//			// Seems you can just config this in conf/[live/]Application.xml
-//			ILiveStreamDvrRecorder dvrRecorder = stream.getDvrRecorder(IDvrConstants.DVR_DEFAULT_RECORDER_ID);
-//            if (dvrRecorder == null) {
-//            	log("ERROR. dvr recorder not found stream:" + streamName);
-//                return;
-//            }            
-//            if (dvrRecorder.isRecording()) {
-//                log("INFO. dvr stop recording stream:" + streamName);
-//            	dvrRecorder.stopRecording(); // maybe this is all you need!
-//            }
-            
-//            // kinda drastic. might cause delay starting up recorder when new stream comes in
-//            // log("INFO. shutting down dvr recorder stream:" + streamName);
-//            // dvrRecorder.shutdown(); 
-            
-//			  // another possible solution
-//            log("INFO. removing stream store stream:" + streamName);
-//            IDvrStreamManager dvrManager = dvrRecorder.getDvrManager();
-//            if (dvrManager == null) {
-//                log("ERROR. dvr manager not found stream:" + streamName);
-//                return;
-//            }
-//            dvrManager.removeStreamStore(streamName);
+			// // Seems you can just config this in conf/[live/]Application.xml
+			// ILiveStreamDvrRecorder dvrRecorder =
+			// stream.getDvrRecorder(IDvrConstants.DVR_DEFAULT_RECORDER_ID);
+			// if (dvrRecorder == null) {
+			// log("ERROR. dvr recorder not found stream:" + streamName);
+			// return;
+			// }
+			// if (dvrRecorder.isRecording()) {
+			// log("INFO. dvr stop recording stream:" + streamName);
+			// dvrRecorder.stopRecording(); // maybe this is all you need!
+			// }
+
+			// // kinda drastic. might cause delay starting up recorder when new
+			// stream comes in
+			// // log("INFO. shutting down dvr recorder stream:" + streamName);
+			// // dvrRecorder.shutdown();
+
+			// // another possible solution
+			// log("INFO. removing stream store stream:" + streamName);
+			// IDvrStreamManager dvrManager = dvrRecorder.getDvrManager();
+			// if (dvrManager == null) {
+			// log("ERROR. dvr manager not found stream:" + streamName);
+			// return;
+			// }
+			// dvrManager.removeStreamStore(streamName);
 		}
 
-		public void onPause(IMediaStream stream, boolean isPause, double location) {
+		public void onPause(IMediaStream stream, boolean isPause,
+				double location) {
 			log("onPause");
 		}
 	}

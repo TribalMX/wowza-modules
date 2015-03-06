@@ -7,7 +7,7 @@ import java.net.URLEncoder;
 
 public class Request {
 
-	public static int notifyStreamStart(String url, String streamName){
+	public static int notifyStreamEvent(String url, String streamName){
 		int resCode = -1;
 		HttpURLConnection con = null;
 		try {
