@@ -131,20 +131,22 @@ public class StreamEvents extends ModuleBase {
 		public void onUnPublish(IMediaStream stream, String streamName, boolean isRecord, boolean isAppend) {
 			log("unpublishing stream:" + streamName);
 			
-			ILiveStreamDvrRecorder dvrRecorder = stream.getDvrRecorder(IDvrConstants.DVR_DEFAULT_RECORDER_ID);
-            if (dvrRecorder == null) {
-            	log("ERROR. dvr recorder not found stream:" + streamName);
-                return;
-            }            
-            if (dvrRecorder.isRecording()) {
-                log("INFO. dvr stop recording stream:" + streamName);
-            	dvrRecorder.stopRecording(); // maybe this is all you need!
-            }
+//			// Seems you can just config this in conf/[live/]Application.xml
+//			ILiveStreamDvrRecorder dvrRecorder = stream.getDvrRecorder(IDvrConstants.DVR_DEFAULT_RECORDER_ID);
+//            if (dvrRecorder == null) {
+//            	log("ERROR. dvr recorder not found stream:" + streamName);
+//                return;
+//            }            
+//            if (dvrRecorder.isRecording()) {
+//                log("INFO. dvr stop recording stream:" + streamName);
+//            	dvrRecorder.stopRecording(); // maybe this is all you need!
+//            }
             
 //            // kinda drastic. might cause delay starting up recorder when new stream comes in
 //            // log("INFO. shutting down dvr recorder stream:" + streamName);
 //            // dvrRecorder.shutdown(); 
             
+//			  // another possible solution
 //            log("INFO. removing stream store stream:" + streamName);
 //            IDvrStreamManager dvrManager = dvrRecorder.getDvrManager();
 //            if (dvrManager == null) {

@@ -75,6 +75,33 @@
 			<ArchiveStrategy>delete</ArchiveStrategy>
 			<!-- Properties for DVR -->
 			<Properties>
+				<Property>
+					<Name>dvrPacketSortTime</Name>
+					<Value>2000</Value>
+					<Type>Integer</Type>
+				</Property>
+				<Property>
+					<Name>dvrAllowableAVPacketDelta</Name>
+					<Value>2000</Value>
+					<Type>Integer</Type>
+				</Property>				    
+				<Property>
+				     <Name>streamTimeout</Name>
+				     <Value>15000</Value>
+				     <Type>Integer</Type>
+				</Property>
+				<!-- shorter chunks less playback latency -->
+				<!-- doesn't seem to affect default of ~13s -->
+				<Property>
+				     <Name>dvrChunkDurationMinimum</Name>
+				     <Value>5000</Value>
+				     <Type>Integer</Type>
+				</Property>
+				<Property>
+				     <Name>dvrMinimumAvailableChunks</Name>
+				     <Value>3</Value>
+				     <Type>Integer</Type>
+				</Property>
 			</Properties>
 		</DVR>
 		<TimedText>

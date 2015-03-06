@@ -59,6 +59,7 @@
       </Properties>
     </Transcoder>
 
+    <!-- settings overriden by ones in live/Application.xml -->
     <DVR>
       <!-- As a single server or as an origin, use dvrstreamingpacketizer in LiveStreamPacketizers above -->
       <!-- Or, in an origin-edge configuration, edges use dvrstreamingrepeater in LiveStreamPacketizers above -->
@@ -80,20 +81,11 @@
       <StorageDir>${com.wowza.wms.context.VHostConfigHome}/dvr</StorageDir>
 
       <!-- valid ArchiveStrategy values are append, version, delete -->
-      <ArchiveStrategy>append</ArchiveStrategy>
+      <ArchiveStrategy>delete</ArchiveStrategy>
 
       <!-- Properties for DVR -->
       <Properties>
-		<Property>
-		  <Name>dvrPacketSortTime</Name>
-		  <Value>2000</Value>
-		  <Type>Integer</Type>
-		</Property>
-		<Property>
-          <Name>dvrAllowableAVPacketDelta</Name>
-          <Value>2000</Value>
-          <Type>Integer</Type>
-     	</Property>		
+			
       </Properties>
     </DVR>
 
