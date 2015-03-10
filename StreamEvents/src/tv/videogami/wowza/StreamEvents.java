@@ -151,7 +151,7 @@ public class StreamEvents extends ModuleBase {
 			// password combo. for now just checking that the username matches
 			// the stream name for simplicity
 			
-			if (streamName != username) {
+			if (streamName == null || !streamName.equals(username)) {
 				log("INFO bad auth onpublish stream:" + streamName + " username:" + username + " password:" + password);
 				client.setShutdownClient(true);
 				sendClientOnStatusError(client, "NetConnection.Connect.Rejected", "Rejected Connection");
