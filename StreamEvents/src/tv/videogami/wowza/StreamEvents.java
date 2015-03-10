@@ -19,6 +19,7 @@ public class StreamEvents extends ModuleBase {
 
 	public static final String VDGAMI_URL = "http://vdgami-1085381642.us-east-1.elb.amazonaws.com";
 
+	// TODO put in Utils. extend ModuleBase to get getLogger
 	private void log(String msg) {
 		getLogger().info("WASA " + msg);
 	}
@@ -43,7 +44,7 @@ public class StreamEvents extends ModuleBase {
 
 	public void onConnect(IClient client, RequestFunction function,
 			AMFDataList params) {
-		log("onConnect: " + client.getClientId());
+		log("onconnect clientID:" + client.getClientId());
 	}
 
 	public void onConnectAccept(IClient client) {
@@ -137,10 +138,33 @@ public class StreamEvents extends ModuleBase {
 
 		public void onPublish(IMediaStream stream, String streamName,
 				boolean isRecord, boolean isAppend) {
-			log("info publishing stream:" + streamName);
+			
+			// TODO do not print out user's passwords!
+			// TODO do not print out user's passwords!
+			// TODO do not print out user's passwords!
+
+			IClient client = stream.getClient();
+			String username = client.getProperties().getPropertyStr("username");
+			String password = client.getProperties().getPropertyStr("password");
+			
+			// TODO. query vdgami db in authprovider for stream, username, and
+			// password combo. for now just checking that the username matches
+			// the stream name for simplicity
+			
+			if (streamName != username) {
+				log("INFO bad auth onpublish stream:" + streamName + " username:" + username + " password:" + password);
+				client.setShutdownClient(true);
+				sendClientOnStatusError(client, "NetConnection.Connect.Rejected", "Rejected Connection");
+				return;
+			}
+
+			log("INFO publishing stream:" + streamName + " username:"
+					+ username + " password:" + password);
+
 			int resCode = Request.notifyStreamEvent(VDGAMI_URL + "/v3/stream/"
 					+ streamName + "/status/true", streamName);
-			log("info notifying stream start stream:" + streamName + " code:" + resCode);
+			log("info notifying stream start stream:" + streamName + " code:"
+					+ resCode);
 		}
 
 		public void onUnPublish(IMediaStream stream, String streamName,
@@ -148,8 +172,9 @@ public class StreamEvents extends ModuleBase {
 			log("info unpublishing stream:" + streamName);
 			int resCode = Request.notifyStreamEvent(VDGAMI_URL + "/v3/stream/"
 					+ streamName + "/status/false", streamName);
-			log("info notifying stream end stream:" + streamName + " code:" + resCode);
-			
+			log("info notifying stream end stream:" + streamName + " code:"
+					+ resCode);
+
 			// // Seems you can just config this in conf/[live/]Application.xml
 			// ILiveStreamDvrRecorder dvrRecorder =
 			// stream.getDvrRecorder(IDvrConstants.DVR_DEFAULT_RECORDER_ID);

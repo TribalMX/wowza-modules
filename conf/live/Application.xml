@@ -84,9 +84,9 @@
 					<Name>dvrAllowableAVPacketDelta</Name>
 					<Value>2000</Value>
 					<Type>Integer</Type>
-				</Property>				    
+				</Property>
 				<Property>
-				    <!-- try 5000ms after notifying vdgami of stream events directly from wowza engine -->				    
+					<!-- try 5000ms after notifying vdgami of stream events directly from wowza engine -->
 					<Name>streamTimeout</Name>
 					<Value>15000</Value>
 					<Type>Integer</Type>
@@ -95,14 +95,14 @@
 				<!-- doesn't seem to affect default of ~13s -->
 				<!-- huh it does on production server -->
 				<Property>
-				     <Name>dvrChunkDurationMinimum</Name>
-				     <Value>5000</Value>
-				     <Type>Integer</Type>
+					<Name>dvrChunkDurationMinimum</Name>
+					<Value>5000</Value>
+					<Type>Integer</Type>
 				</Property>
 				<Property>
-				     <Name>dvrMinimumAvailableChunks</Name>
-				     <Value>5</Value>
-				     <Type>Integer</Type>
+					<Name>dvrMinimumAvailableChunks</Name>
+					<Value>5</Value>
+					<Type>Integer</Type>
 				</Property>
 			</Properties>
 		</DVR>
@@ -150,7 +150,7 @@
 			<IncomingDatagramPortRanges>*</IncomingDatagramPortRanges>
 			<!-- Properties defined here will override any properties defined in conf/RTP.xml for any depacketizers loaded by this application -->
 			<Properties>
-			    <Property>
+				<Property>
 					<Name>rtpDePacketizerWrapper</Name>
 					<Value>com.wowza.wms.rtp.depacketizer.RTPDePacketizerWrapperPacketSorter</Value>
 				</Property>
@@ -173,7 +173,7 @@
 					<Name>logIncompleteMPEGTSVideoFrames</Name>
 					<Value>true</Value>
 					<Type>Boolean</Type>
-				</Property>				
+				</Property>
 			</Properties>
 		</RTP>
 		<MediaCaster>
@@ -267,11 +267,16 @@
 				<Name>ModuleCoreSecurity</Name>
 				<Description>Core Security Module for Applications</Description>
 				<Class>com.wowza.wms.security.ModuleCoreSecurity</Class>
-			</Module>	
+			</Module>
 			<Module>
 				<Name>StreamEvents</Name>
 				<Description>Stream Events for Videogami</Description>
 				<Class>tv.videogami.wowza.StreamEvents</Class>
+			</Module>
+			<Module>
+				<Name>ModuleRTMPAuthenticate</Name>
+				<Description>ModuleRTMPAuthenticate</Description>
+				<Class>com.wowza.wms.security.ModuleRTMPAuthenticate</Class>
 			</Module>
 		</Modules>
 		<!-- Properties defined here will be added to the IApplication.getProperties() and IApplicationInstance.getProperties() collections -->
@@ -281,6 +286,15 @@
 			<!-- 	<Value>true</Value> -->
 			<!-- 	<Type>Boolean</Type> -->
 			<!-- </Property> -->
+			<Property>
+				<Name>usernamePasswordProviderClass</Name>
+				<Value>tv.videogami.wowza.AuthProvider</Value>
+			</Property>
+			<Property>
+				<Name>securityPublishBlockDuplicateStreamNames</Name>
+				<Value>true</Value>
+				<Type>Boolean</Type>
+			</Property>
 		</Properties>
 	</Application>
 </Root>
