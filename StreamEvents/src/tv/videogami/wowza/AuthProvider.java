@@ -21,7 +21,7 @@ public class AuthProvider extends AuthenticateUsernamePasswordProviderBase {
 		
 		IClient client = this.getClient();
 		client.getProperties().setProperty("username", username);
-		client.getProperties().setProperty("password", password); // don't really need to send password to streamevents.onpublish
+		client.getProperties().setProperty("password", password); 
 				
 		return password;
 

@@ -1,5 +1,8 @@
 package tv.videogami.wowza;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import tv.videogami.utils.Request;
 
 import com.wowza.wms.application.*;
@@ -20,8 +23,72 @@ public class StreamEvents extends ModuleBase {
 	public static final String VDGAMI_URL = "http://vdgami-1085381642.us-east-1.elb.amazonaws.com";
 
 	// TODO put in Utils. extend ModuleBase to get getLogger
-	private void log(String msg) {
+	private static void log(String msg) {
 		getLogger().info("WASA " + msg);
+	}
+
+	// TODO put this in utils
+	public static Map<String, String> getQueryMap(String query, String sep1,
+			String sep2) {
+		String[] params = query.split(sep1);
+		Map<String, String> map = new HashMap<String, String>();
+		for (String param : params) {
+			try {
+				String name = param.split(sep2)[0];
+				String value = param.split(sep2)[1];
+				map.put(name, value);
+			} catch (Exception e) {
+				// don't do anything
+			}
+		}
+		return map;
+	}
+
+//	TODO refactor
+	public static boolean clientLogin(IClient client) {
+		String url = null;
+		String qs = null;
+		String streamname = null;
+		String username = null;
+		String password = null;
+		try {
+			url = client.getUri();
+			Map<String, String> urlmap = getQueryMap(url, "/", ":");
+			streamname = urlmap.get("flv");
+			qs = client.getQueryStr();
+			Map<String, String> qsmap = getQueryMap(qs, "&", "=");
+			username = qsmap.get("username");
+			password = qsmap.get("password");
+		} catch (Exception e) {
+			// TODO send error message back to client
+			log("ERROR client login invalid clientID:" + client.getClientId()
+					+ " url:" + url + "?" + qs + " e:" + e.toString());
+			return false;
+		}
+		if (username == null || password == null || streamname == null) {
+			log("ERROR client login null auth clientID:" + client.getClientId()
+					+ " url:" + url + "?" + qs);
+			return false;
+		}
+		log("INFO client login clientID:" + client.getClientId() + " url:"
+				+ url + "?" + qs);
+
+		String req = VDGAMI_URL + "/v3/streamerlogin/" + username + "/"
+				+ password + "/" + streamname;
+		int res = Request.streamerLogin(req, username, password, streamname);
+		if (res == -1) {
+			log("ERROR client login exception clientID:" + client.getClientId()
+					+ " req:" + req + " res:" + res);
+			return false;
+		} else if (res == 200) {
+			log("INFO client login success clientID:" + client.getClientId()
+					+ " req:" + req + " res:" + res);
+			return true;
+		} else { // using 404
+			log("WARNING client login failed clientID:" + client.getClientId()
+					+ " req:" + req + " res:" + res);
+			return false;
+		}
 	}
 
 	public void doSomething(IClient client, RequestFunction function,
@@ -42,9 +109,17 @@ public class StreamEvents extends ModuleBase {
 		log("onAppStop: " + fullname);
 	}
 
+//	TODO send error messages to FMLE client
 	public void onConnect(IClient client, RequestFunction function,
 			AMFDataList params) {
-		log("onconnect clientID:" + client.getClientId());
+		log("INFO onconnect clientID:" + client.getClientId());
+		boolean re = clientLogin(client);
+		if (!re) {
+			log("WARNING onconnect client login failed clientID:"
+					+ client.getClientId());
+			client.rejectConnection();
+			return;
+		}
 	}
 
 	public void onConnectAccept(IClient client) {
@@ -138,28 +213,19 @@ public class StreamEvents extends ModuleBase {
 
 		public void onPublish(IMediaStream stream, String streamName,
 				boolean isRecord, boolean isAppend) {
-			
-			// TODO do not print out user's passwords!
-			// TODO do not print out user's passwords!
-			// TODO do not print out user's passwords!
 
 			IClient client = stream.getClient();
-			String username = client.getProperties().getPropertyStr("username");
-			String password = client.getProperties().getPropertyStr("password");
-			
-			// TODO. query vdgami db in authprovider for stream, username, and
-			// password combo. for now just checking that the username matches
-			// the stream name for simplicity
-			
-			if (streamName == null || !streamName.equals(username)) {
-				log("INFO bad auth onpublish stream:" + streamName + " username:" + username + " password:" + password);
-				client.setShutdownClient(true);
-				sendClientOnStatusError(client, "NetConnection.Connect.Rejected", "Rejected Connection");
+			boolean re = clientLogin(client);
+			if (!re) {
+				log("WARNING onpublish client login failed clientID:"
+						+ client.getClientId());
+				client.rejectConnection();
+				client.setShutdownClient(true); // need to shut down too cause
+												// client's already connected
 				return;
 			}
-
-			log("INFO publishing stream:" + streamName + " username:"
-					+ username + " password:" + password);
+			log("INFO onpublish client login success clientID:"
+					+ client.getClientId());
 
 			int resCode = Request.notifyStreamEvent(VDGAMI_URL + "/v3/stream/"
 					+ streamName + "/status/true", streamName);
@@ -170,6 +236,12 @@ public class StreamEvents extends ModuleBase {
 		public void onUnPublish(IMediaStream stream, String streamName,
 				boolean isRecord, boolean isAppend) {
 			log("info unpublishing stream:" + streamName);
+
+			// IMPORTANT. when a streamer successfully connects, but fails to
+			// stream because they change their stream name, onpublish will shut
+			// down their connection. that's good. BUT, it'll also trigger
+			// onunpublish, so we're now sending an end stream event to vdgami,
+			// which isn't what we want. TODO. fix!
 			int resCode = Request.notifyStreamEvent(VDGAMI_URL + "/v3/stream/"
 					+ streamName + "/status/false", streamName);
 			log("info notifying stream end stream:" + streamName + " code:"

@@ -273,11 +273,13 @@
 				<Description>Stream Events for Videogami</Description>
 				<Class>tv.videogami.wowza.StreamEvents</Class>
 			</Module>
+			<!--  
 			<Module>
 				<Name>ModuleRTMPAuthenticate</Name>
 				<Description>ModuleRTMPAuthenticate</Description>
 				<Class>com.wowza.wms.security.ModuleRTMPAuthenticate</Class>
 			</Module>
+			-->
 		</Modules>
 		<!-- Properties defined here will be added to the IApplication.getProperties() and IApplicationInstance.getProperties() collections -->
 		<Properties>
@@ -286,10 +288,12 @@
 			<!-- 	<Value>true</Value> -->
 			<!-- 	<Type>Boolean</Type> -->
 			<!-- </Property> -->
+			<!-- 
 			<Property>
 				<Name>usernamePasswordProviderClass</Name>
 				<Value>tv.videogami.wowza.AuthProvider</Value>
 			</Property>
+			-->
 			<Property>
 				<Name>securityPublishBlockDuplicateStreamNames</Name>
 				<Value>true</Value>
