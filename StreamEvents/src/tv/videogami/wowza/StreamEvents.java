@@ -49,23 +49,21 @@ public class StreamEvents extends ModuleBase {
 		String url = null;
 		String qs = null;
 		String streamname = null;
-		String username = null;
-		String password = null;
+		String token = null;
 		try {
 			url = client.getUri();
 			Map<String, String> urlmap = getQueryMap(url, "/", ":");
 			streamname = urlmap.get("flv");
 			qs = client.getQueryStr();
 			Map<String, String> qsmap = getQueryMap(qs, "&", "=");
-			username = qsmap.get("username");
-			password = qsmap.get("password");
+			token = qsmap.get("token");
 		} catch (Exception e) {
 			// TODO send error message back to client
 			log("ERROR client login invalid clientID:" + client.getClientId()
 					+ " url:" + url + "?" + qs + " e:" + e.toString());
 			return false;
 		}
-		if (username == null || password == null || streamname == null) {
+		if (token == null || streamname == null) {
 			log("ERROR client login null auth clientID:" + client.getClientId()
 					+ " url:" + url + "?" + qs);
 			return false;
@@ -73,9 +71,9 @@ public class StreamEvents extends ModuleBase {
 		log("INFO client login clientID:" + client.getClientId() + " url:"
 				+ url + "?" + qs);
 
-		String req = VDGAMI_URL + "/v3/streamerlogin/" + username + "/"
-				+ password + "/" + streamname;
-		int res = Request.streamerLogin(req, username, password, streamname);
+		String req = VDGAMI_URL + "/v3/streamerlogin/"
+				+ streamname + "/" + token;
+		int res = Request.streamerLogin(req, streamname, token);
 		if (res == -1) {
 			log("ERROR client login exception clientID:" + client.getClientId()
 					+ " req:" + req + " res:" + res);

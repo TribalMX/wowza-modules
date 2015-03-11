@@ -41,8 +41,7 @@ public class Request {
 		return resCode;
 	}
 
-	public static int streamerLogin(String url, String username,
-			String password, String streamname) {
+	public static int streamerLogin(String url, String streamname, String token) {
 		StringBuffer response = null;
 		HttpURLConnection con = null;
 		try {
@@ -52,10 +51,9 @@ public class Request {
 
 			DataOutputStream wr = new DataOutputStream(con.getOutputStream());
 			String charset = "UTF-8";
-			String query = String.format("username=%s&password=%s&stream=%s",
-					URLEncoder.encode(username, charset),
-					URLEncoder.encode(password, charset),
-					URLEncoder.encode(streamname, charset));
+			String query = String.format("stream=%s&token=%s",					
+					URLEncoder.encode(streamname, charset),
+					URLEncoder.encode(token, charset));
 			wr.writeBytes(query);
 			wr.flush();
 			wr.close();
