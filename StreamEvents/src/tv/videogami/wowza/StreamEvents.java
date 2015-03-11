@@ -45,7 +45,7 @@ public class StreamEvents extends ModuleBase {
 	}
 
 //	TODO refactor
-	public static boolean clientLogin(IClient client) {
+	public static boolean clientLogin(IClient client, String streamName) {
 		String url = null;
 		String qs = null;
 		String streamname = null;
@@ -53,7 +53,8 @@ public class StreamEvents extends ModuleBase {
 		try {
 			url = client.getUri();
 			Map<String, String> urlmap = getQueryMap(url, "/", ":");
-			streamname = urlmap.get("flv");
+//			streamname = urlmap.get("flv"); // can't use this cause ffmpeg doesn't give you this guy
+			streamname = streamName;
 			qs = client.getQueryStr();
 			Map<String, String> qsmap = getQueryMap(qs, "&", "=");
 			token = qsmap.get("token");
@@ -111,13 +112,6 @@ public class StreamEvents extends ModuleBase {
 	public void onConnect(IClient client, RequestFunction function,
 			AMFDataList params) {
 		log("INFO onconnect clientID:" + client.getClientId());
-		boolean re = clientLogin(client);
-		if (!re) {
-			log("WARNING onconnect client login failed clientID:"
-					+ client.getClientId());
-			client.rejectConnection();
-			return;
-		}
 	}
 
 	public void onConnectAccept(IClient client) {
@@ -213,7 +207,7 @@ public class StreamEvents extends ModuleBase {
 				boolean isRecord, boolean isAppend) {
 
 			IClient client = stream.getClient();
-			boolean re = clientLogin(client);
+			boolean re = clientLogin(client, streamName);
 			if (!re) {
 				log("WARNING onpublish client login failed clientID:"
 						+ client.getClientId());
