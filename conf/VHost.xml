@@ -54,8 +54,8 @@
 					    <AuthenticationMethod>none</AuthenticationMethod>
 					</HTTPProvider>
 					<HTTPProvider>
-						<BaseClass>tv.videogami.wowza.WasaForceStopStreamHTTPProvider</BaseClass>
-						<RequestFilters>forcestopstream*</RequestFilters>
+						<BaseClass>tv.videogami.wowza.ForceStreamHTTPProvider</BaseClass>
+						<RequestFilters>forcestream*</RequestFilters>
 						<AuthenticationMethod>none</AuthenticationMethod>
 					</HTTPProvider>
 					<!-- NOTE. someone said to add providers before HttpServerVersion -->

@@ -28,8 +28,7 @@ public class StreamEvents extends ModuleBase {
 	}
 
 	// TODO put this in utils
-	public static Map<String, String> getQueryMap(String query, String sep1,
-			String sep2) {
+	public static Map<String, String> getQueryMap(String query, String sep1, String sep2) {
 		String[] params = query.split(sep1);
 		Map<String, String> map = new HashMap<String, String>();
 		for (String param : params) {
@@ -56,63 +55,52 @@ public class StreamEvents extends ModuleBase {
 			// streamname = urlmap.get("flv"); // can't use this cause ffmpeg
 			// doesn't give you this guy
 			streamname = streamName;
-			qs = client.getQueryStr(); // token=supercolada/flv:54f178d9d9a6ec840d29610f 
+			qs = client.getQueryStr(); // token=supercolada/flv:54f178d9d9a6ec840d29610f
 			qs = qs.split("/")[0]; // token=supercolada&blah=something
 			Map<String, String> qsmap = getQueryMap(qs, "&", "=");
 			token = qsmap.get("token");
 		} catch (Exception e) {
 			// TODO send error message back to client
-			log("ERROR client login invalid clientID:" + client.getClientId()
-					+ " url:" + url + "?" + qs + " e:" + e.toString());
+			log("ERROR client login invalid clientID:" + client.getClientId() + " url:" + url + "?" + qs + " e:" + e.toString());
 			return false;
 		}
 		if (token == null || streamname == null) {
-			log("ERROR client login null auth clientID:" + client.getClientId()
-					+ " url:" + url + "?" + qs);
+			log("ERROR client login null auth clientID:" + client.getClientId() + " url:" + url + "?" + qs);
 			return false;
 		}
-		log("INFO client login clientID:" + client.getClientId() + " url:"
-				+ url + "?" + qs);
+		log("INFO client login clientID:" + client.getClientId() + " url:" + url + "?" + qs);
 
-		String req = VDGAMI_URL + "/v3/streamerlogin/" + streamname + "/"
-				+ token;
+		String req = VDGAMI_URL + "/v3/streamerlogin/" + streamname + "/" + token;
 		int res = Request.streamerLogin(req, streamname, token);
 		if (res == -1) {
-			log("ERROR client login exception clientID:" + client.getClientId()
-					+ " req:" + req + " res:" + res);
+			log("ERROR client login exception clientID:" + client.getClientId() + " req:" + req + " res:" + res);
 			return false;
 		} else if (res == 200) {
-			log("INFO client login success clientID:" + client.getClientId()
-					+ " req:" + req + " res:" + res);
+			log("INFO client login success clientID:" + client.getClientId() + " req:" + req + " res:" + res);
 			return true;
 		} else { // using 404
-			log("WARNING client login failed clientID:" + client.getClientId()
-					+ " req:" + req + " res:" + res);
+			log("WARNING client login failed clientID:" + client.getClientId() + " req:" + req + " res:" + res);
 			return false;
 		}
 	}
 
-	public void doSomething(IClient client, RequestFunction function,
-			AMFDataList params) {
+	public void doSomething(IClient client, RequestFunction function, AMFDataList params) {
 		log("doSomething");
 		sendResult(client, params, "Hello Wowza");
 	}
 
 	public void onAppStart(IApplicationInstance appInstance) {
-		String fullname = appInstance.getApplication().getName() + "/"
-				+ appInstance.getName();
+		String fullname = appInstance.getApplication().getName() + "/" + appInstance.getName();
 		log("onAppStart: " + fullname);
 	}
 
 	public void onAppStop(IApplicationInstance appInstance) {
-		String fullname = appInstance.getApplication().getName() + "/"
-				+ appInstance.getName();
+		String fullname = appInstance.getApplication().getName() + "/" + appInstance.getName();
 		log("onAppStop: " + fullname);
 	}
 
 	// TODO send error messages to FMLE client
-	public void onConnect(IClient client, RequestFunction function,
-			AMFDataList params) {
+	public void onConnect(IClient client, RequestFunction function, AMFDataList params) {
 		log("INFO onconnect clientID:" + client.getClientId());
 	}
 
@@ -146,27 +134,20 @@ public class StreamEvents extends ModuleBase {
 		log("onHTTPSessionDestroy: " + httpSession.getSessionId());
 	}
 
-	public void onHTTPCupertinoStreamingSessionCreate(
-			HTTPStreamerSessionCupertino httpSession) {
-		log("onHTTPCupertinoStreamingSessionCreate: "
-				+ httpSession.getSessionId());
+	public void onHTTPCupertinoStreamingSessionCreate(HTTPStreamerSessionCupertino httpSession) {
+		log("onHTTPCupertinoStreamingSessionCreate: " + httpSession.getSessionId());
 	}
 
-	public void onHTTPCupertinoStreamingSessionDestroy(
-			HTTPStreamerSessionCupertino httpSession) {
-		log("onHTTPCupertinoStreamingSessionDestroy: "
-				+ httpSession.getSessionId());
+	public void onHTTPCupertinoStreamingSessionDestroy(HTTPStreamerSessionCupertino httpSession) {
+		log("onHTTPCupertinoStreamingSessionDestroy: " + httpSession.getSessionId());
 	}
 
-	public void onHTTPSmoothStreamingSessionCreate(
-			HTTPStreamerSessionSmoothStreamer httpSession) {
+	public void onHTTPSmoothStreamingSessionCreate(HTTPStreamerSessionSmoothStreamer httpSession) {
 		log("onHTTPSmoothStreamingSessionCreate: " + httpSession.getSessionId());
 	}
 
-	public void onHTTPSmoothStreamingSessionDestroy(
-			HTTPStreamerSessionSmoothStreamer httpSession) {
-		log("onHTTPSmoothStreamingSessionDestroy: "
-				+ httpSession.getSessionId());
+	public void onHTTPSmoothStreamingSessionDestroy(HTTPStreamerSessionSmoothStreamer httpSession) {
+		log("onHTTPSmoothStreamingSessionDestroy: " + httpSession.getSessionId());
 	}
 
 	public void onRTPSessionCreate(RTPSession rtpSession) {
@@ -177,14 +158,12 @@ public class StreamEvents extends ModuleBase {
 		log("onRTPSessionDestroy: " + rtpSession.getSessionId());
 	}
 
-	public void onCall(String handlerName, IClient client,
-			RequestFunction function, AMFDataList params) {
+	public void onCall(String handlerName, IClient client, RequestFunction function, AMFDataList params) {
 		log("onCall: " + handlerName);
 	}
 
 	class StreamListener implements IMediaStreamActionNotify2 {
-		public void onPlay(IMediaStream stream, String streamName,
-				double playStart, double playLen, int playReset) {
+		public void onPlay(IMediaStream stream, String streamName, double playStart, double playLen, int playReset) {
 			log("onPlay");
 		}
 
@@ -192,8 +171,7 @@ public class StreamEvents extends ModuleBase {
 			log("onMetaData");
 		}
 
-		public void onPauseRaw(IMediaStream stream, boolean isPause,
-				double location) {
+		public void onPauseRaw(IMediaStream stream, boolean isPause, double location) {
 			log("onPauseRaw");
 		}
 
@@ -205,30 +183,32 @@ public class StreamEvents extends ModuleBase {
 			log("onStop By: " + stream.getClientId());
 		}
 
-		public void onPublish(IMediaStream stream, String streamName,
-				boolean isRecord, boolean isAppend) {
-
-			IClient client = stream.getClient();
-			boolean re = clientLogin(client, streamName);
-			if (!re) {
-				log("WARNING onpublish client login failed clientID:"
-						+ client.getClientId());
-				client.rejectConnection();
-				client.setShutdownClient(true); // need to shut down too cause
-												// client's already connected
-				return;
-			}
-			log("INFO onpublish client login success clientID:"
-					+ client.getClientId());
-
-			int resCode = Request.notifyStreamEvent(VDGAMI_URL + "/v3/stream/"
-					+ streamName + "/status/true", streamName);
-			log("info notifying stream start stream:" + streamName + " code:"
-					+ resCode);
+		private void shutdownClient(IClient client) {
+			client.rejectConnection();
+			client.setShutdownClient(true);
 		}
 
-		public void onUnPublish(IMediaStream stream, String streamName,
-				boolean isRecord, boolean isAppend) {
+		public void onPublish(IMediaStream stream, String streamName, boolean isRecord, boolean isAppend) {
+			IClient client = stream.getClient();
+
+			if (StreamBlacklist.isBlacklisted(streamName)){
+				log("WARNING onpublish client stream blacklisted clientID:" + client.getClientId() + " stream:" + streamName);
+				shutdownClient(client);
+				return;
+			}
+			
+			boolean re = clientLogin(client, streamName);
+			if (!re) {
+				log("WARNING onpublish client login failed clientID:" + client.getClientId() + " stream:" + streamName);
+				shutdownClient(client);
+				return;
+			} else log("INFO onpublish client login success clientID:" + client.getClientId());
+
+			int resCode = Request.notifyStreamEvent(VDGAMI_URL + "/v3/stream/" + streamName + "/status/true", streamName);
+			log("info notifying stream start stream:" + streamName + " code:" + resCode);
+		}
+
+		public void onUnPublish(IMediaStream stream, String streamName, boolean isRecord, boolean isAppend) {
 			log("info unpublishing stream:" + streamName);
 
 			// IMPORTANT. when a streamer successfully connects, but fails to
@@ -236,10 +216,10 @@ public class StreamEvents extends ModuleBase {
 			// down their connection. that's good. BUT, it'll also trigger
 			// onunpublish, so we're now sending an end stream event to vdgami,
 			// which isn't what we want. TODO. fix!
-			int resCode = Request.notifyStreamEvent(VDGAMI_URL + "/v3/stream/"
-					+ streamName + "/status/false", streamName);
-			log("info notifying stream end stream:" + streamName + " code:"
-					+ resCode);
+			//
+			// MAYBE do login on stream create instead of onpublish
+			int resCode = Request.notifyStreamEvent(VDGAMI_URL + "/v3/stream/" + streamName + "/status/false", streamName);
+			log("info notifying stream end stream:" + streamName + " code:" + resCode);
 
 			// // Seems you can just config this in conf/[live/]Application.xml
 			// ILiveStreamDvrRecorder dvrRecorder =
@@ -268,8 +248,7 @@ public class StreamEvents extends ModuleBase {
 			// dvrManager.removeStreamStore(streamName);
 		}
 
-		public void onPause(IMediaStream stream, boolean isPause,
-				double location) {
+		public void onPause(IMediaStream stream, boolean isPause, double location) {
 			log("onPause");
 		}
 	}
