@@ -44,18 +44,20 @@ public class StreamEvents extends ModuleBase {
 		return map;
 	}
 
-//	TODO refactor
+	// TODO refactor
 	public static boolean clientLogin(IClient client, String streamName) {
 		String url = null;
 		String qs = null;
 		String streamname = null;
 		String token = null;
 		try {
-			url = client.getUri();
+			url = client.getUri(); // rtmp://localhost:1935/live?token=supercolada/flv:54f178d9d9a6ec840d29610f
 			Map<String, String> urlmap = getQueryMap(url, "/", ":");
-//			streamname = urlmap.get("flv"); // can't use this cause ffmpeg doesn't give you this guy
+			// streamname = urlmap.get("flv"); // can't use this cause ffmpeg
+			// doesn't give you this guy
 			streamname = streamName;
-			qs = client.getQueryStr();
+			qs = client.getQueryStr(); // token=supercolada/flv:54f178d9d9a6ec840d29610f 
+			qs = qs.split("/")[0]; // token=supercolada&blah=something
 			Map<String, String> qsmap = getQueryMap(qs, "&", "=");
 			token = qsmap.get("token");
 		} catch (Exception e) {
@@ -72,8 +74,8 @@ public class StreamEvents extends ModuleBase {
 		log("INFO client login clientID:" + client.getClientId() + " url:"
 				+ url + "?" + qs);
 
-		String req = VDGAMI_URL + "/v3/streamerlogin/"
-				+ streamname + "/" + token;
+		String req = VDGAMI_URL + "/v3/streamerlogin/" + streamname + "/"
+				+ token;
 		int res = Request.streamerLogin(req, streamname, token);
 		if (res == -1) {
 			log("ERROR client login exception clientID:" + client.getClientId()
@@ -108,7 +110,7 @@ public class StreamEvents extends ModuleBase {
 		log("onAppStop: " + fullname);
 	}
 
-//	TODO send error messages to FMLE client
+	// TODO send error messages to FMLE client
 	public void onConnect(IClient client, RequestFunction function,
 			AMFDataList params) {
 		log("INFO onconnect clientID:" + client.getClientId());
