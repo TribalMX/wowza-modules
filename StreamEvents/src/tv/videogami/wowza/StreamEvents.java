@@ -20,12 +20,12 @@ import com.wowza.wms.httpstreamer.smoothstreaming.httpstreamer.*;
 
 public class StreamEvents extends ModuleBase {
 
-//	public static final String VDGAMI_URL = "http://vdgami-1085381642.us-east-1.elb.amazonaws.com";
 	// we now have a node server (again) on wowza that handles requests from wowza engine instead of the vdgami api server.
 	// need to do that cause the wowza engine doesn't know if it's a production or development server, so it'll send requests
 	// to the production vdgami api server instead of the dev env. OTOH, the node server on wowza knows whether it's
 	// NODE_ENV=production|development
-	public static final String VDGAMI_URL = "http://localhost:8080";
+//	public static final String VDGAMI_URL = "http://localhost:8080";
+	public static final String VDGAMI_URL = "http://vdgami-1085381642.us-east-1.elb.amazonaws.com";
 
 	// TODO put in Utils. extend ModuleBase to get getLogger
 	private static void log(String msg) {
