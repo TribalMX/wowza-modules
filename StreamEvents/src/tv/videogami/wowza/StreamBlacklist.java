@@ -16,6 +16,8 @@ public class StreamBlacklist {
 	}
 	
 	public static boolean isBlacklisted(String streamName){
-		return blacklist.get(streamName);
+		Boolean listed = blacklist.get(streamName);
+		if (listed == null) return false;
+		return listed;
 	}
 }
