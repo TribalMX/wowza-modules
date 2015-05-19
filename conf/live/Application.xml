@@ -86,9 +86,9 @@
 					<Type>Integer</Type>
 				</Property>
 				<Property>
-					<!-- try 5000ms after notifying vdgami of stream events directly from wowza engine -->
+					<!-- using timeout on videogami instead -->
 					<Name>streamTimeout</Name>
-					<Value>15000</Value>
+					<Value>0</Value>
 					<Type>Integer</Type>
 				</Property>
 				<!-- shorter chunks less playback latency -->

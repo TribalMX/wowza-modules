@@ -58,6 +58,11 @@
 						<RequestFilters>forcestream*</RequestFilters>
 						<AuthenticationMethod>none</AuthenticationMethod>
 					</HTTPProvider>
+					<HTTPProvider>
+						<BaseClass>tv.videogami.wowza.ClearDVRHTTPProvider</BaseClass>
+						<RequestFilters>cleardvr*</RequestFilters>
+						<AuthenticationMethod>none</AuthenticationMethod>
+					</HTTPProvider>
 					<!-- NOTE. someone said to add providers before HttpServerVersion -->
 					<HTTPProvider>
 						<BaseClass>com.wowza.wms.http.HTTPServerVersion</BaseClass>

@@ -24,8 +24,8 @@ public class StreamEvents extends ModuleBase {
 	// need to do that cause the wowza engine doesn't know if it's a production or development server, so it'll send requests
 	// to the production vdgami api server instead of the dev env. OTOH, the node server on wowza knows whether it's
 	// NODE_ENV=production|development
-	public static final String VDGAMI_URL = "http://localhost:8080";
-//	public static final String VDGAMI_URL = "http://vdgami-1085381642.us-east-1.elb.amazonaws.com";
+//	public static final String VDGAMI_URL = "http://localhost:8080";
+	public static final String VDGAMI_URL = "http://vdgami-1085381642.us-east-1.elb.amazonaws.com";
 
 	// TODO put in Utils. extend ModuleBase to get getLogger
 	private static void log(String msg) {
@@ -193,6 +193,8 @@ public class StreamEvents extends ModuleBase {
 			client.setShutdownClient(true);
 		}
 
+		// TODO login in publish callback instead, because onPublish calls when the stream is already 
+		// created. publish is called before the stream is created.
 		public void onPublish(IMediaStream stream, String streamName, boolean isRecord, boolean isAppend) {
 			IClient client = stream.getClient();
 
@@ -222,35 +224,9 @@ public class StreamEvents extends ModuleBase {
 			// onunpublish, so we're now sending an end stream event to vdgami,
 			// which isn't what we want. TODO. fix!
 			//
-			// MAYBE do login on stream create instead of onpublish
+			// TODO login streamer in publish callback instead of onPublish. see note at onPublish
 			int resCode = Request.notifyStreamEvent(VDGAMI_URL + "/v3/stream/" + streamName + "/status/false", streamName);
 			log("info notifying stream end stream:" + streamName + " code:" + resCode);
-
-			// // Seems you can just config this in conf/[live/]Application.xml
-			// ILiveStreamDvrRecorder dvrRecorder =
-			// stream.getDvrRecorder(IDvrConstants.DVR_DEFAULT_RECORDER_ID);
-			// if (dvrRecorder == null) {
-			// log("ERROR. dvr recorder not found stream:" + streamName);
-			// return;
-			// }
-			// if (dvrRecorder.isRecording()) {
-			// log("INFO. dvr stop recording stream:" + streamName);
-			// dvrRecorder.stopRecording(); // maybe this is all you need!
-			// }
-
-			// // kinda drastic. might cause delay starting up recorder when new
-			// stream comes in
-			// // log("INFO. shutting down dvr recorder stream:" + streamName);
-			// // dvrRecorder.shutdown();
-
-			// // another possible solution
-			// log("INFO. removing stream store stream:" + streamName);
-			// IDvrStreamManager dvrManager = dvrRecorder.getDvrManager();
-			// if (dvrManager == null) {
-			// log("ERROR. dvr manager not found stream:" + streamName);
-			// return;
-			// }
-			// dvrManager.removeStreamStore(streamName);
 		}
 
 		public void onPause(IMediaStream stream, boolean isPause, double location) {
