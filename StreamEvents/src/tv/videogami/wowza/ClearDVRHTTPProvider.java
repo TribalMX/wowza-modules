@@ -6,15 +6,14 @@ import java.util.Map;
 
 import tv.videogami.utils.Utils;
 
-import com.wowza.wms.application.IApplicationInstance;
 import com.wowza.wms.dvr.IDvrConstants;
 import com.wowza.wms.dvr.IDvrStreamManager;
-import com.wowza.wms.http.*;
+import com.wowza.wms.http.HTTProvider2Base;
+import com.wowza.wms.http.IHTTPRequest;
+import com.wowza.wms.http.IHTTPResponse;
 import com.wowza.wms.stream.IMediaStream;
-import com.wowza.wms.stream.MediaStreamMap;
-import com.wowza.wms.stream.live.ILiveReceiver;
 import com.wowza.wms.stream.livedvr.ILiveStreamDvrRecorder;
-import com.wowza.wms.vhost.*;
+import com.wowza.wms.vhost.IVHost;
 
 public class ClearDVRHTTPProvider extends HTTProvider2Base {
 
@@ -41,17 +40,6 @@ public class ClearDVRHTTPProvider extends HTTProvider2Base {
 		Utils.log("INFO clear DVR stream:" + streamName);
 
 		try {
-//			IApplicationInstance appInstance = vhost.getApplication("live").getAppInstance("_definst_");
-//			MediaStreamMap streamMap = appInstance.getStreams();
-//
-//			IMediaStream stream = streamMap.getStream(streamName);
-//			if (stream == null) {
-//				Utils.log("WARNING clear DVR: stream not found:" + streamName);
-//				return;
-//			}
-//			
-//			ILiveStreamDvrRecorder dvrRecorder = stream.getDvrRecorder(IDvrConstants.DVR_DEFAULT_RECORDER_ID);
-			
 			ILiveStreamDvrRecorder dvrRecorder = getRecorder(streamName);
 			if (dvrRecorder == null) {
 				Utils.log("ERROR. clear DVR: dvr recorder not found: stream:" + streamName);
