@@ -227,6 +227,10 @@ public class StreamEvents extends ModuleBase {
 			// TODO login streamer in publish callback instead of onPublish. see note at onPublish
 			int resCode = Request.notifyStreamEvent(VDGAMI_URL + "/v3/stream/" + streamName + "/status/false", streamName);
 			log("info notifying stream end stream:" + streamName + " code:" + resCode);
+			
+			// cache stream DVR recorder to destroy stream store after stream is over.
+			// can't cache in onPublish because by at that point recorder hasn't initialized yet.
+			ClearDVRHTTPProvider.addRecorder(stream); 
 		}
 
 		public void onPause(IMediaStream stream, boolean isPause, double location) {
