@@ -86,9 +86,12 @@
 					<Type>Integer</Type>
 				</Property>
 				<Property>
-					<!-- using timeout on videogami instead -->
+					<!--NOTE. not setting streamTimeout defaults to 5 minutes.
+					setting it to 0 means immediate timeout.
+					IMPORTANT. this value (2 hours) needs to be bigger than the one
+					on api, currently 33 minutes.-->
 					<Name>streamTimeout</Name>
-					<Value></Value>
+					<Value>7200000</Value>
 					<Type>Integer</Type>
 				</Property>
 				<!-- shorter chunks less playback latency -->
