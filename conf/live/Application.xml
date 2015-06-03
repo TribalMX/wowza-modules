@@ -72,7 +72,7 @@
 			<!-- Storage Directory is top level location where dvr is stored.  e.g. c:/temp/dvr -->
 			<StorageDir>${com.wowza.wms.context.VHostConfigHome}/dvr</StorageDir>
 			<!-- valid ArchiveStrategy values are append, version, delete -->
-			<ArchiveStrategy>append</ArchiveStrategy>
+			<ArchiveStrategy>delete</ArchiveStrategy>
 			<!-- Properties for DVR -->
 			<Properties>
 				<Property>
