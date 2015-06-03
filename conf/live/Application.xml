@@ -4,14 +4,16 @@
 		<Name>live</Name>
 		<AppType>Live</AppType>
 		<Description>Default application for live streaming created when Wowza Streaming Engine is installed. Use this application with its default configuration or modify the configuration as needed. You can also copy it to create another live application.</Description>
-		<!-- Uncomment to set application level timeout values
-		<ApplicationTimeout>60000</ApplicationTimeout>
+		
+		<!-- see WowzaMediaServer_ConfigurationReference for info on these settings -->
+		<!-- set ApplicationTimeout to 2 hours, same as DVR streamTimeout -->
+		<ApplicationTimeout>7200000</ApplicationTimeout>
 		<PingTimeout>12000</PingTimeout>
 		<ValidationFrequency>8000</ValidationFrequency>
-		<MaximumPendingWriteBytes>0</MaximumPendingWriteBytes>
+		<MaximumPendingWriteBytes>10000000</MaximumPendingWriteBytes>
 		<MaximumSetBufferTime>60000</MaximumSetBufferTime>
 		<MaximumStorageDirDepth>25</MaximumStorageDirDepth>
-		-->
+		
 		<Connections>
 			<AutoAccept>true</AutoAccept>
 			<AllowDomains></AllowDomains>
