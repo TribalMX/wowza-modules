@@ -51,9 +51,7 @@ public class ClearDVRHTTPProvider extends HTTProvider2Base {
 				dvrRecorder.stopRecording();
 			}
 
-			Utils.log("INFO. clear DVR: shutting down dvr recorder stream:" + streamName);
-			dvrRecorder.shutdown();
-
+			// gotta remove stream store before shutting it down maybe
 			Utils.log("INFO. clear DVR: removing DVR store stream:" + streamName);
 			IDvrStreamManager dvrManager = dvrRecorder.getDvrManager();
 			if (dvrManager == null) {
@@ -61,6 +59,9 @@ public class ClearDVRHTTPProvider extends HTTProvider2Base {
 				return;
 			}
 			dvrManager.removeStreamStore(streamName);
+			
+			Utils.log("INFO. clear DVR: shutting down dvr recorder stream:" + streamName);
+			dvrRecorder.shutdown();
 		} catch (Exception e) {
 			Utils.log("ERROR clear DVR stream:" + streamName + " e:" + e.toString());
 		}
