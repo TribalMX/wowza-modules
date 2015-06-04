@@ -3,6 +3,7 @@
 
 conf/*
 !conf/live/*
+!conf/livehttporigin/*
 !conf/Application.xml
 !conf/Server.xml
 !conf/VHost.xml
