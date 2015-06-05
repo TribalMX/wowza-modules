@@ -1,0 +1,347 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Root version="1">
+	<Application>
+		<Name>edge</Name>
+		<AppType>LiveEdge</AppType>
+		<Description></Description>
+		<!-- Uncomment to set application level timeout values
+	 <ApplicationTimeout>60000</ApplicationTimeout>
+	 <PingTimeout>12000</PingTimeout>
+	 <ValidationFrequency>8000</ValidationFrequency>
+	 <MaximumPendingWriteBytes>0</MaximumPendingWriteBytes>
+	 <MaximumSetBufferTime>60000</MaximumSetBufferTime>
+	 <MaximumStorageDirDepth>25</MaximumStorageDirDepth>
+    -->
+		<Connections>
+			<AutoAccept>true</AutoAccept>
+			<AllowDomains></AllowDomains>
+		</Connections>
+		<!--
+	StorageDir path variables
+	
+	${com.wowza.wms.AppHome} - Application home directory
+	${com.wowza.wms.ConfigHome} - Configuration home directory
+	${com.wowza.wms.context.VHost} - Virtual host name
+	${com.wowza.wms.context.VHostConfigHome} - Virtual host home directory
+	${com.wowza.wms.context.Application} - Application name
+	${com.wowza.wms.context.ApplicationInstance} - Application instance name
+	
+    -->
+		<Streams>
+			<StreamType>liverepeater-edge</StreamType>
+			<StorageDir>${com.wowza.wms.context.VHostConfigHome}/content</StorageDir>
+			<KeyDir>${com.wowza.wms.context.VHostConfigHome}/keys</KeyDir>
+			<!-- LiveStreamPacketizers (separate with commas): cupertinostreamingpacketizer, smoothstreamingpacketizer, sanjosestreamingpacketizer, mpegdashstreamingpacketizer, cupertinostreamingrepeater, smoothstreamingrepeater, sanjosestreamingrepeater, mpegdashstreamingrepeater, dvrstreamingpacketizer, dvrstreamingrepeater -->
+			<LiveStreamPacketizers>cupertinostreamingrepeater, mpegdashstreamingrepeater, sanjosestreamingrepeater, smoothstreamingrepeater</LiveStreamPacketizers>
+			<!-- Properties defined here will override any properties defined in conf/Streams.xml for any streams types loaded by this application -->
+			<Properties>
+				<!-- todo. grep sortBufferSize to make sure this works -->
+				<Property>
+					<Name>sortPackets</Name>
+					<Value>true</Value>
+					<Type>Boolean</Type>
+				</Property>
+				<Property>
+					<Name>sortBufferSize</Name>
+					<Value>750</Value>
+					<Type>Integer</Type>
+				</Property>
+			</Properties>
+		</Streams>
+		<Transcoder>
+			<!-- To turn on transcoder set to: transcoder -->
+			<LiveStreamTranscoder></LiveStreamTranscoder>
+			<!-- [templatename].xml or ${SourceStreamName}.xml -->
+			<Templates>${SourceStreamName}.xml,transrate.xml</Templates>
+			<ProfileDir>${com.wowza.wms.context.VHostConfigHome}/transcoder/profiles</ProfileDir>
+			<TemplateDir>${com.wowza.wms.context.VHostConfigHome}/transcoder/templates</TemplateDir>
+			<Properties>
+			</Properties>
+		</Transcoder>
+		<!-- settings overriden by ones in live/Application.xml -->
+		<DVR>
+			<!-- As a single server or as an origin, use dvrstreamingpacketizer in LiveStreamPacketizers above -->
+			<!-- Or, in an origin-edge configuration, edges use dvrstreamingrepeater in LiveStreamPacketizers above -->
+			<!-- As an origin, also add dvrchunkstreaming to HTTPStreamers below -->
+			<!-- If this is a dvrstreamingrepeater, define Application/Repeater/OriginURL to point back to the origin -->
+			<!-- To turn on DVR recording set Recorders to dvrrecorder.  This works with dvrstreamingpacketizer  -->
+			<Recorders></Recorders>
+			<!-- As a single server or as an origin, set the Store to dvrfilestorage-->
+			<!-- edges should have this empty -->
+			<Store></Store>
+			<!--  Window Duration is length of live DVR window in seconds.  0 means the window is never trimmed. -->
+			<WindowDuration>0</WindowDuration>
+			<!-- Storage Directory is top level location where dvr is stored.  e.g. c:/temp/dvr -->
+			<StorageDir>${com.wowza.wms.context.VHostConfigHome}/dvr</StorageDir>
+			<!-- valid ArchiveStrategy values are append, version, delete -->
+			<ArchiveStrategy>delete</ArchiveStrategy>
+			<!-- Properties for DVR -->
+			<Properties>
+			</Properties>
+		</DVR>
+		<TimedText>
+			<!-- VOD caption providers (separate with commas): vodcaptionprovidermp4_3gpp, vodcaptionproviderttml, vodcaptionproviderwebvtt,  vodcaptionprovidersrt, vodcaptionproviderscc -->
+			<VODTimedTextProviders></VODTimedTextProviders>
+			<!-- Properties for TimedText -->
+			<Properties>
+			</Properties>
+		</TimedText>
+		<!-- HTTPStreamers (separate with commas): cupertinostreaming, smoothstreaming, sanjosestreaming, mpegdashstreaming, dvrchunkstreaming -->
+		<HTTPStreamers>cupertinostreaming, smoothstreaming, sanjosestreaming, mpegdashstreaming</HTTPStreamers>
+		<MediaCache>
+			<MediaCacheSourceList></MediaCacheSourceList>
+		</MediaCache>
+		<SharedObjects>
+			<StorageDir>${com.wowza.wms.context.VHostConfigHome}/applications/${com.wowza.wms.context.Application}/sharedobjects/${com.wowza.wms.context.ApplicationInstance}</StorageDir>
+		</SharedObjects>
+		<Client>
+			<IdleFrequency>-1</IdleFrequency>
+			<Access>
+				<StreamReadAccess>*</StreamReadAccess>
+				<StreamWriteAccess>*</StreamWriteAccess>
+				<StreamAudioSampleAccess></StreamAudioSampleAccess>
+				<StreamVideoSampleAccess></StreamVideoSampleAccess>
+				<SharedObjectReadAccess>*</SharedObjectReadAccess>
+				<SharedObjectWriteAccess>*</SharedObjectWriteAccess>
+			</Access>
+		</Client>
+		<RTP>
+			<!-- RTP/Authentication/[type]Methods defined in Authentication.xml. Default setup includes; none, basic, digest -->
+			<Authentication>
+				<PublishMethod>digest</PublishMethod>
+				<PlayMethod>none</PlayMethod>
+			</Authentication>
+			<!-- RTP/AVSyncMethod. Valid values are: senderreport, systemclock, rtptimecode -->
+			<AVSyncMethod>senderreport</AVSyncMethod>
+			<MaxRTCPWaitTime>12000</MaxRTCPWaitTime>
+			<IdleFrequency>75</IdleFrequency>
+			<RTSPSessionTimeout>90000</RTSPSessionTimeout>
+			<RTSPMaximumPendingWriteBytes>0</RTSPMaximumPendingWriteBytes>
+			<RTSPBindIpAddress></RTSPBindIpAddress>
+			<RTSPConnectionIpAddress>0.0.0.0</RTSPConnectionIpAddress>
+			<RTSPOriginIpAddress>127.0.0.1</RTSPOriginIpAddress>
+			<IncomingDatagramPortRanges>*</IncomingDatagramPortRanges>
+			<!-- Properties defined here will override any properties defined in conf/RTP.xml for any depacketizers loaded by this application -->
+			<Properties>
+			</Properties>
+		</RTP>
+		<MediaCaster>
+			<RTP>
+				<RTSP>
+					<!-- udp, interleave -->
+					<RTPTransportMode>interleave</RTPTransportMode>
+				</RTSP>
+			</RTP>
+			<StreamValidator>
+				<Enable>true</Enable>
+				<ResetNameGroups>true</ResetNameGroups>
+				<StreamStartTimeout>20000</StreamStartTimeout>
+				<StreamTimeout>12000</StreamTimeout>
+				<VideoStartTimeout>0</VideoStartTimeout>
+				<VideoTimeout>0</VideoTimeout>
+				<AudioStartTimeout>0</AudioStartTimeout>
+				<AudioTimeout>0</AudioTimeout>
+				<VideoTCToleranceEnable>true</VideoTCToleranceEnable>
+				<VideoTCPosTolerance>3000</VideoTCPosTolerance>
+				<VideoTCNegTolerance>-500</VideoTCNegTolerance>
+				<AudioTCToleranceEnable>true</AudioTCToleranceEnable>
+				<AudioTCPosTolerance>3000</AudioTCPosTolerance>
+				<AudioTCNegTolerance>-500</AudioTCNegTolerance>
+				<DataTCToleranceEnable>true</DataTCToleranceEnable>
+				<DataTCPosTolerance>3000</DataTCPosTolerance>
+				<DataTCNegTolerance>-500</DataTCNegTolerance>
+				<AVSyncToleranceEnable>true</AVSyncToleranceEnable>
+				<AVSyncTolerance>1500</AVSyncTolerance>
+				<DebugLog>false</DebugLog>
+			</StreamValidator>
+			<!-- Properties defined here will override any properties defined in conf/MediaCasters.xml for any MediaCasters loaded by this applications -->
+			<Properties>
+			</Properties>
+		</MediaCaster>
+		<MediaReader>
+			<!-- Properties defined here will override any properties defined in conf/MediaReaders.xml for any MediaReaders loaded by this applications -->
+			<Properties>
+			</Properties>
+		</MediaReader>
+		<MediaWriter>
+			<!-- Properties defined here will override any properties defined in conf/MediaWriter.xml for any MediaWriter loaded by this applications -->
+			<Properties>
+			</Properties>
+		</MediaWriter>
+		<LiveStreamPacketizer>
+			<!-- Properties defined here will override any properties defined in conf/LiveStreamPacketizers.xml for any LiveStreamPacketizers loaded by this applications -->
+			<Properties>
+			</Properties>
+		</LiveStreamPacketizer>
+		<HTTPStreamer>
+			<!-- Properties defined here will override any properties defined in conf/HTTPStreamers.xml for any HTTPStreamer loaded by this applications -->
+			<Properties>
+			</Properties>
+		</HTTPStreamer>
+		<Manager>
+			<!-- Properties defined are used by the Manager -->
+			<Properties>
+			</Properties>
+		</Manager>
+		<Repeater>
+			<OriginURL>wowz://54.221.196.249:1935/live</OriginURL>
+			<QueryString><![CDATA[]]></QueryString>
+		</Repeater>
+		<StreamRecorder>
+			<Properties>
+			</Properties>
+		</StreamRecorder>
+		<Modules>
+			<Module>
+				<Name>base</Name>
+				<Description>Base</Description>
+				<Class>com.wowza.wms.module.ModuleCore</Class>
+			</Module>
+			<Module>
+				<Name>logging</Name>
+				<Description>Client Logging</Description>
+				<Class>com.wowza.wms.module.ModuleClientLogging</Class>
+			</Module>
+			<Module>
+				<Name>flvplayback</Name>
+				<Description>FLVPlayback</Description>
+				<Class>com.wowza.wms.module.ModuleFLVPlayback</Class>
+			</Module>
+			<Module>
+				<Name>ModuleCoreSecurity</Name>
+				<Description>Core Security Module for Applications</Description>
+				<Class>com.wowza.wms.security.ModuleCoreSecurity</Class>
+			</Module>
+		</Modules>
+		<!-- Properties defined here will be added to the IApplication.getProperties() and IApplicationInstance.getProperties() collections -->
+		<Properties>
+			<!--
+	  Monitor incoming packets (stream, audio, video) to be sure packets continue to flow from encoder to stream. The
+	  streamMonitor[type]StartTimeout controls the timeout (milliseconds) for the first packet. The streamMonitor[type]Timeout
+	  controls the timeout (milliseconds) for packets after the first packet. The stream type refers to a catch all of any packet of
+	  any type (audio, video, data). If any of these values are set to zero, the test is turned off.
+      -->
+			<Property>
+				<Name>streamMonitorStreamStartTimeout</Name>
+				<Value>20000</Value>
+				<Type>Integer</Type>
+			</Property>
+			<Property>
+				<Name>streamMonitorStreamTimeout</Name>
+				<Value>12000</Value>
+				<Type>Integer</Type>
+			</Property>
+			<Property>
+				<Name>streamMonitorVideoStartTimeout</Name>
+				<Value>0</Value>
+				<Type>Integer</Type>
+			</Property>
+			<Property>
+				<Name>streamMonitorVideoTimeout</Name>
+				<Value>0</Value>
+				<Type>Integer</Type>
+			</Property>
+			<Property>
+				<Name>streamMonitorAudioStartTimeout</Name>
+				<Value>0</Value>
+				<Type>Integer</Type>
+			</Property>
+			<Property>
+				<Name>streamMonitorAudioTimeout</Name>
+				<Value>0</Value>
+				<Type>Integer</Type>
+			</Property>
+			<!--
+	  Monitor the incoming packet timecodes (audio, video or data) to be sure packets do not arrive out of order or late. The
+	  streamMonitor[type]TCPosTolerance and streamMonitor[type]TCNegTolerance (milliseconds) values define a sliding window
+	  based on the timecode of the previous packet. For example if these values are set to -500 and 3000 respectively then the
+	  timecode difference between the current arriving packet and the previous packet of that type must fall within
+	  -500 and 3000 milliseconds.  If not and streamMonitor[type]TCToleranceEnable is set to true then stream will be considered
+	  unhealthy and will be reset.
+      -->
+			<Property>
+				<Name>streamMonitorVideoTCToleranceEnable</Name>
+				<Value>true</Value>
+				<Type>Boolean</Type>
+			</Property>
+			<Property>
+				<Name>streamMonitorVideoTCPosTolerance</Name>
+				<Value>3000</Value>
+				<Type>Integer</Type>
+			</Property>
+			<Property>
+				<Name>streamMonitorVideoTCNegTolerance</Name>
+				<Value>-500</Value>
+				<Type>Integer</Type>
+			</Property>
+			<Property>
+				<Name>streamMonitorAudioTCToleranceEnable</Name>
+				<Value>true</Value>
+				<Type>Boolean</Type>
+			</Property>
+			<Property>
+				<Name>streamMonitorAudioTCPosTolerance</Name>
+				<Value>3000</Value>
+				<Type>Integer</Type>
+			</Property>
+			<Property>
+				<Name>streamMonitorAudioTCNegTolerance</Name>
+				<Value>-500</Value>
+				<Type>Integer</Type>
+			</Property>
+			<Property>
+				<Name>streamMonitorDataTCToleranceEnable</Name>
+				<Value>true</Value>
+				<Type>Boolean</Type>
+			</Property>
+			<Property>
+				<Name>streamMonitorDataTCPosTolerance</Name>
+				<Value>3000</Value>
+				<Type>Integer</Type>
+			</Property>
+			<Property>
+				<Name>streamMonitorDataTCNegTolerance</Name>
+				<Value>-500</Value>
+				<Type>Integer</Type>
+			</Property>
+			<!--
+	  Monitors the time difference between the audio and video channel of a stream. If the difference between the currently arriving
+	  video packet and the previous audio packet (or vice-versa) is greater than streamMonitorAVSyncTolerance and streamMonitorAVSyncToleranceEnable
+	  is set to true, then the stream will be considered unhealthy and will be reset.
+      -->
+			<Property>
+				<Name>streamMonitorAVSyncToleranceEnable</Name>
+				<Value>true</Value>
+				<Type>Boolean</Type>
+			</Property>
+			<Property>
+				<Name>streamMonitorAVSyncTolerance</Name>
+				<Value>1500</Value>
+				<Type>Integer</Type>
+			</Property>
+			<!--
+	  If set to true, then when a stream is reset and it belong to a MediaStreamNameGroup all streams in the group will be reset. If
+	  false only the unhealthy stream will be reset.
+      -->
+			<Property>
+				<Name>streamMonitorResetNameGroups</Name>
+				<Value>true</Value>
+				<Type>Boolean</Type>
+			</Property>
+			<!--
+	  Turns on debug logging of the monitoring.
+	  todo grep for ModuleMediaCasterStreamMonitorAdvanced in the logs to make sure a/v sync resetting works
+      -->
+			<Property>
+				<Name>streamMonitorDebug</Name>
+				<Value>false</Value>
+				<Type>Boolean</Type>
+			</Property>
+			<Property>
+				<Name>securityPublishRequirePassword</Name>
+				<Value>true</Value>
+				<Type>Boolean</Type>
+			</Property>
+		</Properties>
+	</Application>
+</Root>
