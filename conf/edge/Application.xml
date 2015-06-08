@@ -32,7 +32,7 @@
 			<StorageDir>${com.wowza.wms.context.VHostConfigHome}/content</StorageDir>
 			<KeyDir>${com.wowza.wms.context.VHostConfigHome}/keys</KeyDir>
 			<!-- LiveStreamPacketizers (separate with commas): cupertinostreamingpacketizer, smoothstreamingpacketizer, sanjosestreamingpacketizer, mpegdashstreamingpacketizer, cupertinostreamingrepeater, smoothstreamingrepeater, sanjosestreamingrepeater, mpegdashstreamingrepeater, dvrstreamingpacketizer, dvrstreamingrepeater -->
-			<LiveStreamPacketizers>cupertinostreamingrepeater, mpegdashstreamingrepeater, sanjosestreamingrepeater, smoothstreamingrepeater</LiveStreamPacketizers>
+			<LiveStreamPacketizers>cupertinostreamingrepeater, mpegdashstreamingrepeater, sanjosestreamingrepeater, smoothstreamingrepeater, dvrstreamingrepeater</LiveStreamPacketizers>
 			<!-- Properties defined here will override any properties defined in conf/Streams.xml for any streams types loaded by this application -->
 			<Properties>
 				<!-- todo. grep sortBufferSize to make sure this works -->
