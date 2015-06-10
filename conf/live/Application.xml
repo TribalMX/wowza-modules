@@ -4,7 +4,6 @@
 		<Name>live</Name>
 		<AppType>Live</AppType>
 		<Description>Default application for live streaming created when Wowza Streaming Engine is installed. Use this application with its default configuration or modify the configuration as needed. You can also copy it to create another live application.</Description>
-		
 		<!-- see WowzaMediaServer_ConfigurationReference for info on these settings -->
 		<!-- set ApplicationTimeout to 2 hours, same as DVR streamTimeout -->
 		<ApplicationTimeout>7200000</ApplicationTimeout>
@@ -13,7 +12,6 @@
 		<MaximumPendingWriteBytes>10000000</MaximumPendingWriteBytes>
 		<MaximumSetBufferTime>60000</MaximumSetBufferTime>
 		<MaximumStorageDirDepth>25</MaximumStorageDirDepth>
-		
 		<Connections>
 			<AutoAccept>true</AutoAccept>
 			<AllowDomains></AllowDomains>
@@ -278,13 +276,6 @@
 				<Description>Stream Events for Videogami</Description>
 				<Class>tv.videogami.wowza.StreamEvents</Class>
 			</Module>
-			<!--  
-			<Module>
-				<Name>ModuleRTMPAuthenticate</Name>
-				<Description>ModuleRTMPAuthenticate</Description>
-				<Class>com.wowza.wms.security.ModuleRTMPAuthenticate</Class>
-			</Module>
-			-->
 		</Modules>
 		<!-- Properties defined here will be added to the IApplication.getProperties() and IApplicationInstance.getProperties() collections -->
 		<Properties>
@@ -299,11 +290,6 @@
 				<Value>tv.videogami.wowza.AuthProvider</Value>
 			</Property>
 			-->
-			<Property>
-				<Name>securityPublishBlockDuplicateStreamNames</Name>
-				<Value>true</Value>
-				<Type>Boolean</Type>
-			</Property>
 		</Properties>
 	</Application>
 </Root>
