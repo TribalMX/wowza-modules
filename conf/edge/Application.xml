@@ -184,7 +184,7 @@
 			</Properties>
 		</Manager>
 		<Repeater>
-			<OriginURL>wowz://54.221.196.249:1935/live</OriginURL>
+			<OriginURL>wowz://54.94.255.86:1935/live</OriginURL>
 			<QueryString><![CDATA[]]></QueryString>
 		</Repeater>
 		<StreamRecorder>
