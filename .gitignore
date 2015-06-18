@@ -1,6 +1,9 @@
 *
 !.gitignore
 
+applications/*
+!applications/edge/.gitignore
+
 conf/*
 !conf/live/*
 !conf/edge/*
