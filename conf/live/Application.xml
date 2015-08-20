@@ -276,6 +276,11 @@
 				<Description>Stream Events for Videogami</Description>
 				<Class>tv.videogami.wowza.StreamEvents</Class>
 			</Module>
+			<Module>
+				<Name>ModulePushPublish</Name>
+				<Description>ModulePushPublish</Description>
+				<Class>com.wowza.wms.pushpublish.module.ModulePushPublish</Class>
+			</Module>
 		</Modules>
 		<!-- Properties defined here will be added to the IApplication.getProperties() and IApplicationInstance.getProperties() collections -->
 		<Properties>
